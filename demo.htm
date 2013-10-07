@@ -69,7 +69,7 @@
         var name = document.getElementById('example').value.split(/\s+/);
         var isMale = document.getElementById('male').checked;
 
-        var person = new Petrovich(name[0], name[1], name[2], isMale ? Petrovich.MALE : Petrovich.FEMALE);
+        var person = new Petrovich(name[0], name.length < 2 ? '' : name[1], name.length < 3 ? '' : name[2], isMale ? Petrovich.MALE : Petrovich.FEMALE);
         for (var i = 1; i < Petrovich.CASES.length; i++) {
           document.getElementById('value_' + Petrovich.CASES[i]).innerHTML =
             person.lastName(Petrovich.CASES[i]) + ' ' +
