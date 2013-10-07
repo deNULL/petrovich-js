@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>Petrovich JS</title>
+    <link href="//fonts.googleapis.com/css?family=Cuprum&amp;subset=latin,cyrillic" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=PT+Mono&amp;subset=latin,cyrillic" rel="stylesheet">
+    <script deferer="" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="lib/petrovich.js"></script>
+    <script src="lib/petrovich.rules.js"></script>
+    <style type="text/css"></style>
+  </head>
+  <body style="">
+    <article class="center-content">
+      <section class="title-section">
+        <img alt="Петрович" class="logo" src="/logo.png">
+        <h1 class="name">Petrovich JS</h1>
+        <h2 class="desc">Русское склонение имён для JavaScript</h2>
+        <a class="button" href="https://github.com/denull/petrovich-js">Проект на ГитХабе</a>
+      </section>
+
+      <section class="example-section">
+        <h2 class="section-title">Пример</h2>
+        <form action="/" class="form" data-role="form">
+          <input class="text-input" data-role="example" id="example" placeholder="Фамилия Имя Отчество" type="text" value="Иванов Иван Иванович" onchange="update()" onkeyup="update()">
+          <div class="genders">
+            <label><input id="male" checked="" class="gender-input" data-role="gender male" name="gender" type="radio" value="male" onclick="update()"><div class="gender-link">мужской</div></label>
+            <label><input class="gender-input" data-role="gender female" name="gender" type="radio" value="female" onclick="update()"><div class="gender-link">женский</div></label>
+          </div>
+        </form>
+        <ul class="cases">
+          <li class="case"><div class="name" title="Родительный падеж">род.</div><div id="value_genitive" class="value" data-role="genitive">Иванова Ивана Ивановича</div></li>
+          <li class="case"><div class="name" title="Дательный падеж">дат.</div><div id="value_dative" class="value" data-role="dative">Иванову Ивану Ивановичу</div></li>
+          <li class="case"><div class="name" title="Винительный падеж">вин.</div><div id="value_accusative" class="value" data-role="accusative">Иванова Ивана Ивановича</div></li>
+          <li class="case"><div class="name" title="Творительный падеж">тво.</div><div id="value_instrumental" class="value" data-role="instrumental">Ивановым Иваном Ивановичем</div></li>
+          <li class="case"><div class="name" title="Предложный падеж">пре.</div><div id="value_prepositional" class="value" data-role="prepositional">Иванове Иване Ивановиче</div></li>
+        </ul>
+      </section>
+
+      <section class="howto-section">
+        <h2 class="section-title">Инструкция</h2>
+        <ul>
+          <li class="step">Подключите библиотеку и правила для неё:
+          <pre class="code">
+            <code class="line">&lt;script src="lib/petrovich.js"&gt;&lt;/script&gt;</code>
+            <code class="line">&lt;script src="lib/petrovich.rules.js"&gt;&lt;/script&gt;</code>
+          </pre>
+          </li>
+
+          <li class="step">Создайте объект, выбрав имя и пол (или только пол):
+          <pre class="code">
+            <code class="line">var p = new Petrovich("Иванов", "Иван", "Иванович", Petrovich.MALE);</code>
+          </pre>
+          </li>
+
+          <li class="step">Склоняйте:
+          <pre class="code">
+            <code class="line">p.lastname(Petrovich.GENITIVE); <span class="comment" data-role="genitive">// =&gt; "Иванова"</span></code>
+            <code class="line">p.lastname(Petrovich.DATIVE);   <span class="comment" data-role="dative">// =&gt; "Иванову"</span></code>
+          </pre>
+          </li>
+        </ul>
+      </section>
+    </article>
+
+    <link rel="stylesheet" href="demo.css">
+    <script lang="javascript">
+      function update() {
+        var name = document.getElementById('example').value.split(/\s+/);
+        var isMale = document.getElementById('male').checked;
+
+        var person = new Petrovich(name[0], name[1], name[2], isMale ? Petrovich.MALE : Petrovich.FEMALE);
+        for (var i = 1; i < Petrovich.CASES.length; i++) {
+          document.getElementById('value_' + Petrovich.CASES[i]).innerHTML =
+            person.lastName(Petrovich.CASES[i]) + ' ' +
+            person.firstName(Petrovich.CASES[i]) + ' ' +
+            person.middleName(Petrovich.CASES[i]);
+        }
+      }
+      update();
+    </script>
+  </body>
+</html>
